@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 
@@ -13,6 +13,9 @@ function App() {
     <div className="App">
       <header className="App-header">
         <p>My first react app </p>
+        <Counter></Counter>
+
+        <Users></Users>
         <ul>
           {names.map(name=><li>{name}</li>)}
         </ul>
@@ -27,6 +30,37 @@ function App() {
       </header>
     </div>
   );
+}
+function Counter(){
+  const [count, setCount] = useState(0);
+  //const handleIncrease = () => setCount(count + 1);
+  
+  return(
+    <div>
+      <h3>Count: {count}</h3>
+      <button onClick={() => setCount(count + 1)}>Increase</button>
+    </div>
+  )
+}
+
+function Users(){
+  const [users, setUsers] = useState([]);
+
+  useEffect(() => {
+    fetch('https://jsonplaceholder.typicode.com/users')
+    .then(res => res.json())
+    .then(data => setUsers(data));
+  }, [])
+
+  return(
+    <div>
+      <h3>Dynamic Users: {users.length}</h3>
+      <ul>
+          {users.map(user=> <li>{user.name +", "+ user.company.name}</li> )}
+      </ul>
+      
+    </div>
+  )
 }
 function Products(props){
   const productStyle = {
